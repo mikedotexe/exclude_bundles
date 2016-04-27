@@ -1,0 +1,6 @@
+exclude_bundles.admin.config:
+  title: 'Exclude bundles'
+  parent: system.admin_config_search
+  description: 'Exclude content types from search.'
+  route_name: exclude_bundles.admin.config
+  menu_name: admin

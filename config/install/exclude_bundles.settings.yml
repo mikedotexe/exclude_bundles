@@ -1,0 +1,8 @@
+base_route_name: exclude_bundles.admin.config
+bundles:
+  client: client
+  lab: lab
+  masthead: masthead
+  offices: offices
+  people: people
+  press: press

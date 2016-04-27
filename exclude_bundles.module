@@ -1,0 +1,27 @@
+<?php
+
+use Drupal\Core\Database\Query\AlterableInterface;
+
+/**
+ * Implements hook_query_TAG_alter
+ */
+function exclude_bundles_query_search_node_search_alter(AlterableInterface $query) {
+  // ideas taken from:
+  //   https://www.phase2technology.com/blog/restricting-search-results-in-drupal-7/
+  // see the config file exclude_bundles.settings.yml
+  $config = \Drupal::config('exclude_bundles.settings');
+  $bundles_config = $config->get('bundles');
+  $hidden_bundles = [];
+  foreach ($bundles_config as $k => $v) {
+    // if the value is not 0, add it to the array
+    if ($v) {
+      $hidden_bundles[] = $k;
+    }
+  }
+
+  if (!empty($hidden_bundles)) {
+    // add the extra table to join based on config logic
+    $query->join('node', 'n2', 'n.nid = n2.nid');
+    $query->condition('n2.type', $hidden_bundles, 'NOT IN');
+  }
+}

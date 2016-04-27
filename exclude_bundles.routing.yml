@@ -1,0 +1,7 @@
+exclude_bundles.admin.config:
+  path: '/admin/config/search/bundles'
+  defaults:
+    _form: '\Drupal\exclude_bundles\Form\SearchBundles'
+    _title: 'Bundles to exclude from search'
+  requirements:
+    _permission: 'administer search'

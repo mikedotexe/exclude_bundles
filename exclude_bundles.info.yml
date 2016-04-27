@@ -1,0 +1,6 @@
+name: Exclude bundles
+type: module
+description: Allows Drupal core search to exclude node bundles
+core: 8.x
+package: Custom
+configure: exclude_bundles.admin.config
