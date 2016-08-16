@@ -12,10 +12,12 @@ function exclude_bundles_query_search_node_search_alter(AlterableInterface $quer
   $config = \Drupal::config('exclude_bundles.settings');
   $bundles_config = $config->get('bundles');
   $hidden_bundles = [];
-  foreach ($bundles_config as $k => $v) {
-    // if the value is not 0, add it to the array
-    if ($v) {
-      $hidden_bundles[] = $k;
+  if(!empty($bundles_config)) {
+    foreach ($bundles_config as $k => $v) {
+      // if the value is not 0, add it to the array
+      if ($v) {
+        $hidden_bundles[] = $k;
+      }
     }
   }
 
