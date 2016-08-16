@@ -38,7 +38,7 @@ class SearchBundles extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('exclude_bundles.settings');
-    $configured_bundles = $config->get('bundles');
+    $configured_bundles = $config->get('bundles') ? $config->get('bundles') : [];
 
     // get list of current Content Types
     $node_bundles = \Drupal::service('entity.manager')->getStorage('node_type')->loadMultiple();
@@ -52,7 +52,7 @@ class SearchBundles extends ConfigFormBase {
       '#type' => 'checkboxes',
       '#options' => $options,
       '#title' => t('Content types to exclude from search'),
-      '#default_value' => $config->get('bundles'),
+      '#default_value' => $configured_bundles,
     );
 
     return parent::buildForm($form, $form_state);
