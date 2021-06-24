@@ -12,7 +12,7 @@ function exclude_bundles_query_search_node_search_alter(AlterableInterface $quer
   $config = \Drupal::config('exclude_bundles.settings');
   $bundles_config = $config->get('bundles');
   $hidden_bundles = [];
-  if(!empty($bundles_config)) {
+  if (!empty($bundles_config)) {
     foreach ($bundles_config as $k => $v) {
       // if the value is not 0, add it to the array
       if ($v) {
@@ -26,4 +26,31 @@ function exclude_bundles_query_search_node_search_alter(AlterableInterface $quer
     $query->join('node', 'n2', 'n.nid = n2.nid');
     $query->condition('n2.type', $hidden_bundles, 'NOT IN');
   }
+}
+
+
+function exclude_bundles_form_search_form_alter(&$form, &$form_state, $form_id) {
+  $config = \Drupal::config('exclude_bundles.settings');
+  $bundles_config = $config->get('bundles');
+  $hidden_bundles = [];
+  if (!empty($bundles_config)) {
+    foreach ($bundles_config as $k => $v) {
+      // if the value is not 0, add it to the array
+      if ($v) {
+        $hidden_bundles[$k] = $k;
+      }
+    }
+  }
+
+  // get the original array of all types from the form
+  $array_of_all_bundles = $form['advanced']['types-fieldset']['type']['#options'];
+
+  // remove the hidden bundles from the list of all content types
+  $array_of_non_excluded_bundles = array_diff_key($array_of_all_bundles, $hidden_bundles);
+
+  $form['advanced']['types-fieldset']['type'] = array(
+    '#type' => 'checkboxes',
+    '#options' => $array_of_non_excluded_bundles
+  );
+
 }

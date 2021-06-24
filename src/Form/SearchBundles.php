@@ -41,7 +41,7 @@ class SearchBundles extends ConfigFormBase {
     $configured_bundles = $config->get('bundles') ? $config->get('bundles') : [];
 
     // get list of current Content Types
-    $node_bundles = \Drupal::service('entity.manager')->getStorage('node_type')->loadMultiple();
+    $node_bundles = \Drupal::service('entity_type.manager')->getStorage('node_type')->loadMultiple();
 
     $options = [];
     foreach ($node_bundles as $bundle) {
@@ -51,7 +51,7 @@ class SearchBundles extends ConfigFormBase {
     $form['bundles'] = array(
       '#type' => 'checkboxes',
       '#options' => $options,
-      '#title' => t('Content types to exclude from search'),
+      '#title' => t('Content types to exclude from search:'),
       '#default_value' => $configured_bundles,
     );
 
